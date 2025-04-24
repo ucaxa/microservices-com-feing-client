@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,10 +34,9 @@ public class PedidoService {
     }
 
     public PedidoDto obterPorId(Long id) {
-        Pedido pedido = repository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
-
-        return modelMapper.map(pedido, PedidoDto.class);
+       Pedido pedido = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Pedido com ID " + id + " não encontrado"));
+             return modelMapper.map(pedido, PedidoDto.class);
     }
 
     public PedidoDto criarPedido(PedidoDto dto) {
